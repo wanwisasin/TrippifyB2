@@ -10,7 +10,7 @@ exports.generateTripPlan = async (req, res) => {
     for (const day of plan.days) {
       for (const loc of day.locations) {
         try {
-          const nearbyRes = await axios.get(`http://localhost:5000/api/places/nearby`, {
+          const nearbyRes = await axios.get(`https://trippifyb2-production.up.railway.app/api/places/nearby`, {
             params: { lat: loc.lat, lng: loc.lng, type: 'cafe', radius: 1000 }
           });
           loc.nearbyPlaces = nearbyRes.data; // เพิ่ม field nearbyPlaces
