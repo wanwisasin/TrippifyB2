@@ -10,9 +10,8 @@ require('./config/passport');
 const app = express();
 
 app.use(express.json());
-
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173', // แก้ไขให้ใช้ default fallback
+  origin: process.env.CLIENT_URL || 'http://localhost:5173',
   credentials: true
 }));
 
@@ -21,10 +20,12 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    maxAge: 24 * 60 * 60 * 1000,
-    secure: false,
+    maxAge: 24 * 60 * 60 * 1000, // 1 วัน
+    secure: process.env.NODE_ENV === "production", // true ถ้าอยู่บน https
+    sameSite: "none" // สำคัญ! ให้ cookie ข้าม domain ได้
   }
 }));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
